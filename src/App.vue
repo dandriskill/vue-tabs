@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Tabs initialTab="description">
+    <Tabs defaultTab="description">
       <TabHeads slot="tab-heads">
         <TabHead name="description">
           <img

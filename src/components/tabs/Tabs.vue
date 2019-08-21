@@ -12,31 +12,36 @@ import { EventBus } from "./eventBus.js";
 export default {
   name: "Tabs",
   props: {
-    initialTab: {
+    defaultTab: {
       type: String,
       required: true
     }
   },
   data() {
     return {
-      activeTab: this.initialTab
+      activeTab: this.defaultTab
     };
   },
-  mounted() {
-    EventBus.$on("tab-clicked", this.handleTabClick);
-  },
-  beforeDestroy() {
-    EventBus.$off("tab-clicked");
-  },
   methods: {
+    emitActiveTab: function() {
+      EventBus.$emit("active-tab-changed", this.activeTab);
+    },
     handleTabClick: function(tab) {
       this.activeTab = tab;
+      this.emitActiveTab();
     }
   },
   computed: {
     tabPanelSlotName: function() {
       return `tab-panel-${this.activeTab}`;
     }
+  },
+  mounted() {
+    this.emitActiveTab();
+    EventBus.$on("tab-clicked", this.handleTabClick);
+  },
+  beforeDestroy() {
+    EventBus.$off("tab-clicked");
   }
 };
 </script>

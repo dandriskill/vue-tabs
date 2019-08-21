@@ -18,17 +18,29 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      isTabActive: false,
+    };
+  },
   methods: {
     onTabClick: function(name) {
       EventBus.$emit("tab-clicked", name);
+    },
+    handleTabSwitch: function(tab) {
+      this.isTabActive = tab === this.name;
     }
   },
   computed: {
     isActiveStyles: function() {
-      const activeTab = this.$parent.$parent.activeTab;
-      const isTabActive = this.name === activeTab;
-      return isTabActive ? "tab-head--active" : "";
+      return this.isTabActive ? "tab-head--active" : "";
     }
+  },
+  mounted() {
+    EventBus.$on("active-tab-changed", this.handleTabSwitch);
+  },
+  beforeDestroy() {
+    EventBus.$off("active-tab-changed");
   }
 };
 </script>
