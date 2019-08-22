@@ -2,7 +2,7 @@
   <li
     class="tab-head"
     :class="isActiveStyles"
-    @click="onTabClick(name)"
+    @click="onTabClick(tab)"
   >
     <slot></slot>
   </li>
@@ -13,7 +13,7 @@ import { EventBus } from "./eventBus.js";
 export default {
   name: "TabHead",
   props: {
-    name: {
+    tab: {
       type: String,
       required: true
     }
@@ -24,11 +24,11 @@ export default {
     };
   },
   methods: {
-    onTabClick: function(name) {
-      EventBus.$emit("tab-clicked", name);
+    onTabClick: function(tab) {
+      EventBus.$emit("tab-clicked", tab);
     },
     handleTabSwitch: function(tab) {
-      this.isTabActive = tab === this.name;
+      this.isTabActive = tab === this.tab;
     }
   },
   computed: {
@@ -89,17 +89,6 @@ export default {
   }
   .tab-head-title {
     margin: 10px 0;
-  }
-}
-
-@media (min-width: 768px) {
-  .tab-head {
-    padding: 4px 14px;
-  }
-  .tab-head-image {
-    margin: 10px 10px 0 0;
-    width: 20px;
-    height: 20px;
   }
 }
 </style>
